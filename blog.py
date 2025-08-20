@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
-load_dotenv()
-
 from huggingface_hub import InferenceClient
 import os
 
-client = InferenceClient(api_key=os.getenv("HF_TOKEN"))
+# Load environment variables
+load_dotenv()
 
+# Hugging Face Inference Client
+client = InferenceClient(api_key=os.getenv("HF_TOKEN"))
 
 app = Flask(__name__)
 
@@ -19,8 +20,9 @@ def generate_blog(paragraph_topic):
                 "content": f"Write a paragraph about the following topic: {paragraph_topic}"
             }
         ],
+        max_tokens=300,  # prevent overly long text
     )
-    return response.choices[0].message['content']
+    return response.choices[0].message.content  # ✅ fixed
 
 @app.route("/", methods=["GET", "POST"])
 def index():
