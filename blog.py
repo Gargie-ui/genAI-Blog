@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 # Hugging Face Inference Client
-client = InferenceClient(api_key=os.getenv("HF_TOKEN"))
+client = InferenceClient(api_key=os.getenv("HF_API_TOKEN"))
 
 app = Flask(__name__)
 
